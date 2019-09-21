@@ -156,7 +156,7 @@ public class ZplPrinterBuilder implements PrinterBuilder {
     }
 
     public String getZpl() {
-        return label.getZplCode();
+        return label.getZplCode().replace("^B3", "^B8");
     }
 
 }
