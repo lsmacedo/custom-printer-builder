@@ -1,23 +1,22 @@
-package printer.model;
+package app.model;
 
 public class Etiqueta {
 
     private String barcode;
+    private int barcodeType;
     private String identifier;
     private String price;
     private int amount = 1;
 
-    public Etiqueta(String barcode, String identifier, String price) {
-        this.barcode = barcode;
-        this.identifier = identifier;
-        this.price = price;
-    }
+    public static final int BARCODE_EAN_8 = 1;
+    public static final int BARCODE_EAN_13 = 2;
 
-    public Etiqueta(String barcode, String identifier, String price, int amount) {
+    public Etiqueta(String barcode, String identifier, String price, int amount, int barcodeType) {
         this.barcode = barcode;
         this.identifier = identifier;
         this.price = price;
         this.amount = amount;
+        this.barcodeType = barcodeType;
     }
 
     public String getBarcode() {
@@ -26,6 +25,14 @@ public class Etiqueta {
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    public int getBarcodeType() {
+        return barcodeType;
+    }
+
+    public void setBarcodeType(int barcodeType) {
+        this.barcodeType = barcodeType;
     }
 
     public String getIdentifier() {

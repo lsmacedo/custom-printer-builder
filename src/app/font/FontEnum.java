@@ -1,6 +1,4 @@
-package printer.font;
-
-import fr.w3blog.zpl.constant.ZebraFont;
+package app.font;
 
 public enum FontEnum {
 

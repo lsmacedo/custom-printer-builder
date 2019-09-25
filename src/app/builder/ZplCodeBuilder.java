@@ -1,14 +1,13 @@
-package printer.builder;
+package app.builder;
 
 import fr.w3blog.zpl.constant.ZebraFont;
 import fr.w3blog.zpl.model.ZebraLabel;
 import fr.w3blog.zpl.model.element.ZebraBarCode39;
 import fr.w3blog.zpl.model.element.ZebraNativeZpl;
 import fr.w3blog.zpl.model.element.ZebraText;
-import printer.PrinterUtils;
-import printer.font.FontEnum;
+import app.font.FontEnum;
 
-public class ZplPrinterBuilder implements PrinterBuilder {
+public class ZplCodeBuilder implements PrinterCodeBuilder {
 
     private ZebraLabel label;
 
@@ -29,7 +28,7 @@ public class ZplPrinterBuilder implements PrinterBuilder {
     public static final String DEFAULT_TEXT_ALIGN = TEXT_ALIGN_CENTER;
     public static final int DEFAULT_BARCODE_HEIGHT = DEFAULT_FONT_SIZE * 7;
 
-    public PrinterBuilder init(int width, int height) {
+    public PrinterCodeBuilder init(int width, int height) {
         label = new ZebraLabel(width, height);
 
         this.width = width;
@@ -43,7 +42,7 @@ public class ZplPrinterBuilder implements PrinterBuilder {
         return this;
     }
 
-    public PrinterBuilder setFontFamily(FontEnum fontFamily) {
+    public PrinterCodeBuilder setFontFamily(FontEnum fontFamily) {
         switch (fontFamily) {
             case ZEBRA_FONT_A:
                 label.setDefaultZebraFont(ZebraFont.ZEBRA_A);
@@ -71,50 +70,50 @@ public class ZplPrinterBuilder implements PrinterBuilder {
         return this;
     }
 
-    public PrinterBuilder setFontSize(int fontSize) {
+    public PrinterCodeBuilder setFontSize(int fontSize) {
         this.fontSize = fontSize;
 
         return this;
     }
 
-    public PrinterBuilder setLineSpacing(int lineSpacing) {
+    public PrinterCodeBuilder setLineSpacing(int lineSpacing) {
         this.lineSpacing = lineSpacing;
 
         return this;
     }
 
-    public PrinterBuilder setTextAlign(String textAlign) {
+    public PrinterCodeBuilder setTextAlign(String textAlign) {
         this.textAlign = textAlign;
 
         return this;
     }
 
-    public PrinterBuilder jumpYPosition(int y) {
+    public PrinterCodeBuilder jumpYPosition(int y) {
         this.currentYPosition += y;
 
         return this;
     }
 
-    public PrinterBuilder jumpToYPosition(int y) {
+    public PrinterCodeBuilder jumpToYPosition(int y) {
         this.currentYPosition = y;
 
         return this;
     }
 
-    public PrinterBuilder jumpLines(int amountOfLines) {
+    public PrinterCodeBuilder jumpLines(int amountOfLines) {
         this.currentYPosition += (amountOfLines * 3 * fontSize) + lineSpacing;
 
         return this;
     }
 
-    public PrinterBuilder addText(String text, int x) {
+    public PrinterCodeBuilder addText(String text, int x) {
         label.addElement(new ZebraNativeZpl("^FB" + width + ",1,0," + textAlign));
         label.addElement(new ZebraText(x, currentYPosition, text, fontSize));
 
         return this;
     }
 
-    public PrinterBuilder addText(String text, int x, boolean bold) {
+    public PrinterCodeBuilder addText(String text, int x, boolean bold) {
         label.addElement(new ZebraNativeZpl("^FB" + width + ",1,0," + textAlign));
         label.addElement(new ZebraText(x, currentYPosition, text, fontSize));
         if (bold) {
@@ -126,7 +125,7 @@ public class ZplPrinterBuilder implements PrinterBuilder {
         return this;
     }
 
-    public PrinterBuilder addBarCode(String seed, int x) {
+    public PrinterCodeBuilder addBarCode(String seed, int x) {
         jumpYPosition((DEFAULT_BARCODE_HEIGHT / 2) + lineSpacing);
 
         label.addElement(new ZebraNativeZpl("^FB600,1,0," + textAlign));
@@ -135,27 +134,27 @@ public class ZplPrinterBuilder implements PrinterBuilder {
         return this;
     }
 
-    public PrinterBuilder addBarCode(String seed, int x, int height) {
+    public PrinterCodeBuilder addBarCode(String seed, int x, int height) {
         jumpYPosition(height);
         label.addElement(new ZebraBarCode39(x, currentYPosition, seed, height));
 
         return this;
     }
 
-    public PrinterBuilder addBarCode(String seed, int x, int width, int height) {
+    public PrinterCodeBuilder addBarCode(String seed, int x, int width, int height) {
         jumpYPosition(height);
         label.addElement(new ZebraBarCode39(x, currentYPosition, seed, height, width, 2));
 
         return this;
     }
 
-    public PrinterBuilder addNativeZpl(String zplCode) {
+    public PrinterCodeBuilder addNativeZpl(String zplCode) {
         label.addElement(new ZebraNativeZpl(zplCode));
 
         return this;
     }
 
-    public String getZpl() {
+    public String getNativeCode() {
         return label.getZplCode().replace("^B3", "^B8");
     }
 
