@@ -39,6 +39,8 @@ public class ZplCodeBuilder implements PrinterCodeBuilder {
         setLineSpacing(DEFAULT_LINE_SPACING);
         setTextAlign(DEFAULT_TEXT_ALIGN);
 
+        currentYPosition = 0;
+
         return this;
     }
 

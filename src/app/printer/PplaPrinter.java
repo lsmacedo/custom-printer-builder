@@ -11,13 +11,13 @@ import java.util.List;
 
 public class PplaPrinter implements TagPrinter {
 
-    public int printTagA(List<Etiqueta> etiquetas) {
+    public String printTagA(List<Etiqueta> etiquetas) {
         String initialConfiguration = "\u0002L\nD11\nH14\n";
 
         StringBuilder buffer = new StringBuilder("");
         for (Etiqueta etiqueta : etiquetas) {
             String barcode = etiqueta.getBarcode();
-            String identifier = etiqueta.getIdentifier();
+            String identifier = PrinterUtils.removeNotAcceptedCharacters(etiqueta.getIdentifier());
             String price = etiqueta.getPrice();
             int amount = etiqueta.getAmount();
             buffer.append(initialConfiguration)
@@ -33,20 +33,23 @@ public class PplaPrinter implements TagPrinter {
                     .append("\nE\n\n");
         }
 
-        try {
-            PrinterUtils.printString(PrinterUtils.getDefaultPrintService(), buffer.append("Q0001\nE\n\n").toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return 1;
-        } catch (PrintException e) {
-            e.printStackTrace();
-            return 2;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 3;
-        }
+        buffer.append("Q0001\nE\n\n");
+        return buffer.toString();
 
-        return 0;
+//        try {
+//            PrinterUtils.printString(PrinterUtils.getDefaultPrintService(), buffer.toString());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return 1;
+//        } catch (PrintException e) {
+//            e.printStackTrace();
+//            return 2;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return 3;
+//        }
+//
+//        return 0;
     }
 
 }

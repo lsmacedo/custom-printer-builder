@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TagPrinter {
 
-    int printTagA(List<Etiqueta> etiquetas);
+    String printTagA(List<Etiqueta> etiquetas);
 
 }

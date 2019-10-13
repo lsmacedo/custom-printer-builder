@@ -4,8 +4,13 @@ import javax.print.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.Normalizer;
 
 public class PrinterUtils {
+
+    public static String removeNotAcceptedCharacters(String str) {
+        return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
 
     public static PrintService getDefaultPrintService() {
         PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
