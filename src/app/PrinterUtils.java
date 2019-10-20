@@ -1,9 +1,7 @@
 package app;
 
 import javax.print.*;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.Normalizer;
 
 public class PrinterUtils {
@@ -14,24 +12,27 @@ public class PrinterUtils {
 
     public static PrintService getDefaultPrintService() {
         PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
+        for (PrintService printService : printServices) {
+            System.out.println(printService.getName());
+        }
 
         return printServices != null ? printServices[0] : null;
     }
 
-    public static void printString(PrintService printService, String text) throws IOException, PrintException, Exception {
+    public static void printString(PrintService printService, String commands) throws IOException, PrintException, Exception {
         if (printService == null) throw new Exception();
 
-        // Create a print job
-        DocPrintJob job = printService.createPrintJob();
+        FileOutputStream fos = null;
+        try {
+            PrintStream ps = new PrintStream(new FileOutputStream("/dev/usb/lp0"));
 
-        // Define the format of print document
-        InputStream is = new ByteArrayInputStream(text.getBytes());
-        DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
-
-        // Print the data
-        Doc doc = new SimpleDoc(is, flavor, null);
-        job.print(doc, null);
-        is.close();
+            ps.println(commands);
+            ps.print("\f");
+            ps.flush();
+            ps.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -6,6 +6,7 @@ public class Etiqueta {
     private int barcodeType;
     private String identifier;
     private String price;
+    private String storeName;
     private int amount = 1;
 
     public static final int BARCODE_EAN_8 = 1;
@@ -17,6 +18,15 @@ public class Etiqueta {
         this.price = price;
         this.amount = amount;
         this.barcodeType = barcodeType;
+    }
+
+    public Etiqueta(String barcode, String identifier, String price, int amount, int barcodeType, String storeName) {
+        this.barcode = barcode;
+        this.price = price;
+        this.amount = amount;
+        this.barcodeType = barcodeType;
+        this.storeName = storeName;
+        this.identifier = identifier;
     }
 
     public String getBarcode() {
@@ -59,4 +69,11 @@ public class Etiqueta {
         this.amount = amount;
     }
 
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
 }

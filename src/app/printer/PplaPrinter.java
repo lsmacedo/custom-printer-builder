@@ -3,10 +3,6 @@ package app.printer;
 import app.PrinterUtils;
 import app.model.Etiqueta;
 
-import javax.print.*;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 public class PplaPrinter implements TagPrinter {
@@ -26,7 +22,7 @@ public class PplaPrinter implements TagPrinter {
                     .append("\n121100000180100")
                     .append(identifier)
                     .append("\n121100000080100")
-                    .append("R$")
+                    .append("R$ ")
                     .append(price)
                     .append("\n").append("Q")
                     .append(String.format("%04d", amount))
@@ -35,21 +31,11 @@ public class PplaPrinter implements TagPrinter {
 
         buffer.append("Q0001\nE\n\n");
         return buffer.toString();
+    }
 
-//        try {
-//            PrinterUtils.printString(PrinterUtils.getDefaultPrintService(), buffer.toString());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return 1;
-//        } catch (PrintException e) {
-//            e.printStackTrace();
-//            return 2;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return 3;
-//        }
-//
-//        return 0;
+    @Override
+    public String printTagB(List<Etiqueta> etiquetas) {
+        return null;
     }
 
 }

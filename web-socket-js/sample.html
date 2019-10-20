@@ -1,0 +1,44 @@
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+
+    <title>QZ Tray Sample Page</title>
+</head>
+<!-- Required scripts -->
+<script type="text/javascript" src="js/dependencies/rsvp-3.1.0.min.js"></script>
+<script type="text/javascript" src="js/dependencies/sha-256.min.js"></script>
+<script type="text/javascript" src="js/dependencies/jquery.min.js"></script>
+<script type="text/javascript" src="js/qz-tray.js"></script>
+<script type="text/javascript" src="./PrinterWebSocket.js"></script>
+
+<body id="qz-page" role="document">
+    <div style="width: 100vw; height: 100vh" onclick="print()"></div>
+</body>
+
+<script>
+    let ws = null;
+
+    $('document').ready(() => {
+        ws = new PrinterWebSocket();
+        ws.init();
+    });
+
+    function print(printerRawCode) {
+        printerRawCode = `N
+q814
+Q203,26
+B70,5,0,E80,2,10,50,B,"0123456"
+A255,15,0,2,1,1,N,"CSR1293"
+A255,35,0,2,1,1,N,"R$ 10,00"
+A254,34,0,2,1,1,N,"R$ 10,00"
+B510,5,0,E80,2,10,50,B,"0123456"
+A695,15,0,2,1,1,N,"CSR1293"
+A695,35,0,2,1,1,N,"R$ 10,00"
+A694,34,0,2,1,1,N,"R$ 10,00"
+
+P1,1`
+
+        ws.printRawCode(printerRawCode);
+    }
+</script>
+</html>
